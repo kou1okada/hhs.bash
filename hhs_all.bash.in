@@ -1,0 +1,15 @@
+[ -n "${HHS_ALL_BASH}" ] && return
+:     ${HHS_ALL_BASH:=1}
+
+hhsinc sgr
+hhsinc debug
+hhsinc shopt
+hhsinc optparse
+hhsinc usage
+hhsinc command
+hhsinc version
+
+: ${VERBOSE:=1}
+: ${SOURCE_AT:=1}
+: ${COLORIZE:=1}
+init_SGR
