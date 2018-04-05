@@ -144,8 +144,11 @@ function optparse ()
     done
     
     if [ -z "${_SHIFT}" ]; then
-      fatal "nparams is not called: $1"
-      
+      if [ "{1:0:1}" = "-" ]; then
+        fatal "Maybe nparams is not called or case foget return 1 at \*) in optparse_${CMD}: $1"
+      else
+        fatal "Maybe case foget return 1 at \*) in optparse_${CMD}: $1"
+      fi
       : "${_SHIFT:=1}"
     fi
     
@@ -168,7 +171,7 @@ function optparse__common ()
     *)
       if [ -z "$has_subcommand" ]; then
         ARGS+=( "$1" )
-      _SHIFT=1
+        _SHIFT=1
       else
         ARGS+=( "$@" )
         _SHIFT=$#
