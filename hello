@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+source "$(type -p hhs.bash)"
+hhs_compatibility_check VERSION 0.0.1
+
+function optparse_hello ()
+{
+  case "$1" in
+    -b|--bold)
+      nparams 0
+      optset BOLD "$1"
+      ;;
+    -n|--name)
+      nparams 1
+      optset NAME "$2"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+function hello () # [OPTIONS]
+# Options:
+#   -n, --name=NAME   set name.
+{
+  local bold="${OPT_BOLD:+\e[1m}"
+  local reset="${OPT_BOLD:+\e[0m}"
+  echo -e "hello ${bold}${OPT_NAME:-hhs}${reset}."
+}
+
+invoke_command "$@"

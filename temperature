@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+source "$(type -p hhs.bash)"
+hhs_compatibility_check VERSION 0.0.1
+
+
+
+function temperature_celsius ()
+{
+  awk -vK="${OPT_K}" 'BEGIN{print K-273.15;exit}'
+}
+
+function temperature_fahrenheit ()
+{
+  awk -vK="${OPT_K}" 'BEGIN{print K*9/5-459.67;exit}'
+}
+
+function temperature_kelvin ()
+{
+  echo "${OPT_K}"
+}
+
+
+
+function optparse_temperature ()
+{
+  case "$1" in
+    -c|--celsius)
+      nparams 1
+      optset K $( awk -v C="$2" 'BEGIN{print C + 273.15; exit}' )
+      ;;
+    -f|--fahrenheit)
+      nparams 1
+      optset K $( awk -v F="$2" 'BEGIN{print (F + 459.67) * 5 / 9; exit}' )
+      ;;
+    -k|--kelvin)
+      nparams 1
+      optset K "$2"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+has_subcommand_temperature=1
+
+function temperature () # [OPTIONS] [COMMAND]
+# Command:
+#   celsius                      put temperature by celsius
+#   fahrenheit                   put temperature by fahrenheit
+#   kelvin                       put temperature by kelvin
+# Options:
+#   -c, --celsius=TEMPERATURE    set temperature by celsius.
+#   -f, --fahrenheit=TEMPERATURE set temperature by fahrenheit.
+#   -k, --kelvin=TEMPERATURE     set temperature by kelvin.
+{
+  :
+}
+
+invoke_command "$@"
