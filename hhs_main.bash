@@ -1,3 +1,8 @@
+[ -n "${HHS_MAIN_BASH}" ] && return
+:     ${HHS_MAIN_BASH:=1}
+
+
+
 function is_same_entity () #= FILE1 FILE2
 {
   local files
