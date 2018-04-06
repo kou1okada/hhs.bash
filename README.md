@@ -1,7 +1,7 @@
 # hhs.bash - Happy hacking script for bash
 
-This project provides the simple way to develop the bash script
-which has rich options and sub-commands.
+This project provides the library for the simple way
+to develop the bash script which has rich options and sub-commands.
 
 ## Installation
 
@@ -21,4 +21,4 @@ PATH=~/local/bin:$PATH
 See examples below:
 
 * `hello`
-* `temlerature`
+* `temperature`
