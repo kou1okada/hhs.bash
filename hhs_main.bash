@@ -56,18 +56,24 @@ function hhs_init () #=
   fi
 }
 
+
+
+has_subcommand_hhs=1
+
 function hhs () #= [OPTIONS] [COMMAND]
 # Commands:
 #   init       init library
 {
-  case "$1" in
-    init)
-      hhs_init "${@:2}"
-      exit $?
-      ;;
-    *)
-      hhsinc command
-      CMD=hhs invoke_command "$@"
-      ;;
-  esac
+  if (( 0 < $# )); then
+    case "$1" in
+      init)
+        hhs_init "${@:2}"
+        exit $?
+        ;;
+      *)
+        hhsinc command
+        CMD=hhs invoke_command "$@"
+        ;;
+    esac
+  fi
 }
