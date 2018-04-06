@@ -16,8 +16,8 @@ function invoke_command () #= [ARGS ...]
   local -n has_subcommand="has_subcommand_${CMD//-/_}"
   unset BASECMD
   
-  type -p init && init
-  type -p "init_${CMD//-/_}" && "init_${CMD//-/_}"
+  [ "$(type -t init)" = "function" ] && init
+  [ "$(type -t "init_${CMD//-/_}")" = "function" ] && "init_${CMD//-/_}"
   
   if   [ "$(type -t "${CMD//-/_}")" = "function" ]; then
     CMD="${CMD//-/_}"
