@@ -10,6 +10,15 @@ function is_same_entity () #= FILE1 FILE2
   [ "${files[0]}" = "${files[1]}" -a -n "$files" ]
 }
 
+
+
+function hhs_sample ()
+{
+  cat "${HHS_REALDIR%%/}/sample"
+}
+
+
+
 function optparse_hhs_init ()
 {
   case "$1" in

@@ -1,0 +1,44 @@
+!/usr/bin/env bash
+
+source "$(type -p hhs.bash)"
+hhs_compatibility_check VERSION 0.0.1
+
+
+
+# has_subcommand_sample=1 # uncomment if it has the subcommand.
+
+function optparse_sample ()
+{
+  case "$1" in
+    -o|--optional) # [OPTIONAL]
+      # Can take a optional value. It's can be ommited.
+      nparam 1 1
+      optset OPTIONAL "default value"
+      ;;
+    -s|--switch) #
+      # Have no values, only work as flag.
+      nparam 0
+      optset SWITCH "$1"
+      ;;
+    -v|--value) # VALUE
+      # Always have a value
+      nparam 1
+      optset VALUE "$2"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+function sample() # [ARGS ...]
+#   Descriptions
+# Args:
+#   ARGS : Arguments
+{
+  :
+}
+
+
+
+invoke_command "$@"
