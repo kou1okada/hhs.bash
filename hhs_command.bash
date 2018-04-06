@@ -12,7 +12,7 @@ function invoke_command () #= [ARGS ...]
 #   CMD    : Name of parent command
 #   ARGS   : Arguments for subcommand
 {
-  local ARGS CMD="${CMD:-${BASECMD:-${0##*/}}}" OPTS cmdtype
+  local ARGS CMD="${CMD:-${SCRIPT_NAME}}" OPTS cmdtype
   local -n has_subcommand="has_subcommand_${CMD//-/_}"
   unset BASECMD
   
