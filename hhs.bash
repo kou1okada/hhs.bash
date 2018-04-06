@@ -36,4 +36,9 @@ function hhsinc () #= FILE
   include_guard=1
 }
 
-[ -z "$HHS_NOT_ALL" ] && hhsinc all
+if [ "$SCRIPT_FILE" = "$HHS_REALFILE" ]; then
+  hhsinc main
+  hhs "$@"
+else
+  [ -z "$HHS_NOT_ALL" ] && hhsinc all
+fi
