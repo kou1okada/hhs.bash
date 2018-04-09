@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
 
 source "$(type -p hhs.bash)"
-hhs_compatibility_check VERSION 0.0.1
+hhs_compatibility_check VERSION 0.0.2
 
 function optparse_hello ()
 {
   case "$1" in
     -b|--bold)
+      # Put the name with the bold face.
       nparams 0
       optset BOLD "$1"
       ;;
-    -n|--name)
+    -n|--name) # NAME
+      # Set a name.
       nparams 1
       optset NAME "$2"
       ;;
@@ -21,8 +23,7 @@ function optparse_hello ()
 }
 
 function hello () # [OPTIONS]
-# Options:
-#   -n, --name=NAME   set name.
+#   Say hello.
 {
   local bold="${OPT_BOLD:+\e[1m}"
   local reset="${OPT_BOLD:+\e[0m}"

@@ -1,21 +1,24 @@
 #!/usr/bin/env bash
 
 source "$(type -p hhs.bash)"
-hhs_compatibility_check VERSION 0.0.1
+hhs_compatibility_check VERSION 0.0.2
 
 
 
 function temperature_celsius ()
+#   Put temperature by celsius.
 {
   awk -vK="${OPT_K}" 'BEGIN{print K-273.15;exit}'
 }
 
 function temperature_fahrenheit ()
+#   Put temperature by fahrenheit.
 {
   awk -vK="${OPT_K}" 'BEGIN{print K*9/5-459.67;exit}'
 }
 
 function temperature_kelvin ()
+#   Put temperature by kelvin.
 {
   echo "${OPT_K}"
 }
@@ -25,17 +28,35 @@ function temperature_kelvin ()
 function optparse_temperature ()
 {
   case "$1" in
-    -c|--celsius)
+    -c|--celsius) # TEMPERATURE
+      # Set temperature with celsius.
       nparams 1
       optset K $( awk -v C="$2" 'BEGIN{print C + 273.15; exit}' )
       ;;
-    -f|--fahrenheit)
+    -f|--fahrenheit) # TEMPERATURE
+      # Set temperature with fahrenheit.
       nparams 1
       optset K $( awk -v F="$2" 'BEGIN{print (F + 459.67) * 5 / 9; exit}' )
       ;;
-    -k|--kelvin)
+    -k|--kelvin) # TEMPERATURE
+      # Set temperature with kelvin.
       nparams 1
       optset K "$2"
+      ;;
+    -o) # [VALUE=default]
+      # Short option with a optional value.
+      nparams 1 1
+      optset O default
+      ;;
+    --optional) # [VALUE=default]
+      # Long option with a optional value.
+      nparams 1 1
+      optset OPTIONAL default
+      ;;
+    -o|--optional) # [VALUE=default]
+      # Short and long options with a optional value.
+      nparams 1 1
+      optset OPTIONAL default
       ;;
     *)
       return 1
@@ -46,14 +67,7 @@ function optparse_temperature ()
 has_subcommand_temperature=1
 
 function temperature () # [OPTIONS] [COMMAND]
-# Command:
-#   celsius                      put temperature by celsius
-#   fahrenheit                   put temperature by fahrenheit
-#   kelvin                       put temperature by kelvin
-# Options:
-#   -c, --celsius=TEMPERATURE    set temperature by celsius.
-#   -f, --fahrenheit=TEMPERATURE set temperature by fahrenheit.
-#   -k, --kelvin=TEMPERATURE     set temperature by kelvin.
+#   Convert units of the temperature.
 {
   :
 }
