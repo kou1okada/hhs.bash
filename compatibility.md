@@ -1,3 +1,20 @@
+# 0.1.0
+
+## Variable names to Inhibit feature alert are changed.
+
+Now `INHIBIT_${FEATURE}_ALERT` is changed to `INHIBIT_${FEATURE}_NEWER_ALERT`.
+And `INHIBIT_${FEATURE}_OLDER_ALERT` is appended.
+
+Before:
+~~~
+INHIBIT_VERSION_ALERT=1
+~~~
+
+After:
+~~~
+INHIBIT_VERSION_NEWER_ALERT=1
+~~~
+
 # 0.0.2
 
 ## Function for the command, and the comment for autogenerating the usage.

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 source "$(type -p hhs.bash)"
-hhs_compatibility_check VERSION 0.0.2
+hhs_compatibility_check VERSION 0.1.0
 
 
 

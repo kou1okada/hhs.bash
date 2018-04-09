@@ -83,14 +83,23 @@ function hhs_compatibility_check () #= FEATURE VALUE
   [ -z "$feature"       ] && { fatal "Feature was not found: $1"; abort 1; }
   [ -z "$compatibility" ] && { fatal "Compatibility was not found: $1"; abort 1; }
   
-  if ver_lt "$2" "$compatibility" && [ -z "$INHIBIT_COMPATIBILITY_ALERT" ]; then
+  local -n inhibit_feature_compatibility_alert="INHIBIT_${1^^}_COMPATIBILITY_ALERT"
+  if ver_lt "$2" "$compatibility" && [ -z "$inhibit_feature_compatibility_alert" ]; then
     fatal "hhs changed specification at $1 $compatibility.\n" \
           " But your script is written for hhs $1 $2.\n" \
           " Please update your script: ${0}"
     abort 1
   fi
   
-  if ver_lt "$feature" "$2" && [ -z "$INHIBIT_VERSION_ALERT" ]; then
+  local -n inhibit_feature_older_alert="INHIBIT_${1^^}_OLDER_ALERT"
+  if ver_gt "$feature" "$2" && [ -z "$inhibit_feature_older_alert" ]; then
+    warning "Your script is written for hhs ${1} $2.\n" \
+          " But your hhs ${1} is $feature.\n" \
+          " Please update your script."
+  fi
+  
+  local -n inhibit_feature_newer_alert="INHIBIT_${1^^}_NEWER_ALERT"
+  if ver_lt "$feature" "$2" && [ -z "$inhibit_feature_newer_alert" ]; then
     fatal "Your script is written for hhs ${1} $2.\n" \
           " But your hhs ${1} is $feature.\n" \
           " Please update your hhs."
