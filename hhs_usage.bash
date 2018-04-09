@@ -9,9 +9,9 @@ function usage_default () #= [CMD]
 #   CMD : Whole name of subcommand 
 {
   local i lines src
-
+  
   for (( i = ${#BASH_SOURCE[@]} - 1; 0 <= i; --i )); do
-    if cat "${BASH_SOURCE[i]}" | grep -qE "^function +${1:-$CMD} +\( *\)"; then
+    if cat "${BASH_SOURCE[i]}" | grep -qE "^function +${1:-$CMD} *\( *\)"; then
       src="${BASH_SOURCE[i]}"
       break
     fi
@@ -21,8 +21,8 @@ function usage_default () #= [CMD]
   
   readarray -t lines < <(
     cat "$src" \
-    | grep -nE "^function +${1:-$CMD} +\( *\)|^{" \
-    | grep -A1 -E "^[0-9]+:function +${1:-$CMD} +\( *\)" \
+    | grep -nE "^function +${1:-$CMD} *\( *\)|^{" \
+    | grep -A1 -E "^[0-9]+:function +${1:-$CMD} *\( *\)" \
     | sed -r -e 's/^([0-9]+).*/\1/g')
   cat "$src" \
   | head -n+$(( lines[1] - 1 )) \
