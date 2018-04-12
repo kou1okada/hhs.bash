@@ -12,6 +12,26 @@ function is_same_entity () #= FILE1 FILE2
 
 
 
+function hhs_clean_versions ()
+#   Remove files from HHS_VERSIONS_DIR directory.
+#   HHS_VERSIONS_DIR is the directory for caching
+#   the specific versions to keep compatibility.
+{
+  if [ -z "$HHS_VERSIONS_DIR" -o "$HHS_VERSIONS_DIR" == "/" ]; then
+    hhsinc debug
+    error "HHS_VERSIONS_DIR is invalid: ${HHS_VERSIONS_DIR@Q}"
+    abort 1
+  fi
+  local clean=( rm -frv "${HHS_VERSIONS_DIR}" )
+  echo "${clean[@]:0:2}" "${clean[2]@Q}"
+  hhsinc ask
+  if ask "Are you sure?" ; then
+    "${clean[@]}"
+  fi
+}
+
+
+
 function hhs_sample ()
 {
   cat "${HHS_REALDIR%%/}/sample"
