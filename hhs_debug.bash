@@ -24,7 +24,7 @@ function dump_callstack () #= [N=1]
   local i
   echo "Callstack:"
   for i in `seq "$(( ${#FUNCNAME[@]} - 1 ))" -1 $(( ${1:-1} + ${CALLSTACK_SKIP:-0} ))`; do
-    echo -e "\t${BASH_SOURCE[0]}: ${FUNCNAME[i]}: ${BASH_LINENO[i-1]}"
+    echo -e "\t${BASH_SOURCE[i]}: ${FUNCNAME[i]}: ${BASH_LINENO[i-1]}"
   done
 } #/dump_callstack
 
