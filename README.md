@@ -32,8 +32,7 @@ Write your script as below:
 ~~~
 #!/usr/bin/env bash
 
-source hhs.bash
-hhs_compatibility_check VERSION 0.1.0
+source hhs.bash 0.2.0
 
 # Write your script
 # ...

@@ -1,3 +1,25 @@
+# 0.2.0
+
+## Version of hhs.bash became to be able to set staticaly.
+
+Now `hhs.bash` can take version number,
+when it read with `source` command.
+
+It makes easier to get backward compatibility for hhs.
+You will be freed from bothersome rewriting tasks
+that your scripts keep to follow the newest version of hhs.
+
+Before:
+~~~
+source hhs.bash
+hhs_compatibility_check VERSION 0.1.0
+~~~
+
+After:
+~~~
+source hhs.bash 0.1.0
+~~~
+
 # 0.1.0
 
 ## Variable names to Inhibit feature alert are changed.

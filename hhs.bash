@@ -7,8 +7,10 @@
 
 (( 5 <= DEBUG )) && set -x
 
-HHS_VERSION=0.1.0
+HHS_VERSION=0.2.0
 HHS_VERSION_COMPATIBILITY=0.1.0
+
+HHS_VERSIONS_DIR="${HOME}/.config/hhs/versions"
 
 HHS_PATH="$BASH_SOURCE"
 HHS_FILE="${HHS_PATH##*/}"
@@ -36,7 +38,12 @@ function hhsinc () #= FILE
   include_guard=1
 }
 
-if [ "$SCRIPT_FILE" = "$HHS_REALFILE" ]; then
+if (( 2 == ${#BASH_SOURCE[@]} )) && [[ "$1" != "$HHS_VERSION" ]]; then
+  # Fallback to target versions.
+  hhsinc target_version
+  prepare_target_version "$1"
+  source "${HHS_VERSIONS_DIR}/v$1/hhs.bash"
+elif [ "$SCRIPT_FILE" = "$HHS_REALFILE" ]; then
   hhsinc main
   hhs "$@"
 else
