@@ -33,6 +33,7 @@ function hhs_clean_versions ()
 
 
 function hhs_sample ()
+#   Show a sample file for skeleton script.
 {
   cat "${HHS_REALDIR%%/}/sample"
 }
@@ -46,17 +47,14 @@ function optparse_hhs_init ()
       nparams 0
       ARGS+=( "$1" )
       ;;
-    -w|--wara)
-      nparams 0
-      echo "wara"
-      ;;
     *)
       return 1
       ;;
   esac
 }
 
-function hhs_init () #= 
+function hhs_init ()
+#   Helper for initializing hhs.
 {
   if (( $# == 0 )); then
     local TARGET="$(type -p "${SCRIPT_FILE}")"
@@ -90,8 +88,7 @@ function hhs_init () #=
 has_subcommand_hhs=1
 
 function hhs () #= [OPTIONS] [COMMAND]
-# Commands:
-#   init       init library
+#   hhs.bash - Happy Hacking Script for Bash
 {
   if (( 0 < $# )); then
     case "$1" in
