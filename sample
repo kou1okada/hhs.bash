@@ -11,17 +11,17 @@ function optparse_sample ()
   case "$1" in
     -o|--optional) # [OPTIONAL]
       # Can take a optional value. It's can be ommited.
-      nparam 1 1
+      nparams 1 1
       optset OPTIONAL "default value"
       ;;
     -s|--switch) #
       # Have no values, only work as flag.
-      nparam 0
+      nparams 0
       optset SWITCH "$1"
       ;;
     -v|--value) # VALUE
       # Always have a value
-      nparam 1
+      nparams 1
       optset VALUE "$2"
       ;;
     *)
