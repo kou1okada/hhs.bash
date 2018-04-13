@@ -98,7 +98,7 @@ function optset () #= NAME [VALUE]
 {
   local -n opt="OPT_$1"
   if [ -n "$_OPTIONAL" ] && [ -n "$_SHORT" -o -n "$_LONG" ]; then
-    opt
+    opt="${_ARGS[1]}"
   else
     opt="$2"
   fi
