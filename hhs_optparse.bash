@@ -144,7 +144,7 @@ function optparse ()
     done
     
     if [ -z "${_SHIFT}" ]; then
-      if [ "{1:0:1}" = "-" ]; then
+      if [ "${1:0:1}" = "-" ]; then
         fatal "Maybe nparams is not called or case foget return 1 at \*) in optparse_${CMD}: $1"
       else
         fatal "Maybe case foget return 1 at \*) in optparse_${CMD}: $1"
