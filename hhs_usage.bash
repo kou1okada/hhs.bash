@@ -4,8 +4,11 @@
 function usage__commands #= [CMD]
 {
   local i lines src=()
+  local -A checked
   
   for (( i = ${#BASH_SOURCE[@]} - 1; 0 <= i; --i )); do
+    [ -n "${checked[${BASH_SOURCE[i]}]}" ] && continue
+    : ${checked[${BASH_SOURCE[i]}]:=1}
     if cat "${BASH_SOURCE[i]}" | grep -qE "^function +${1:-$CMD}_([^ ]+) *\( *\)"; then
       src+=( "${BASH_SOURCE[i]}" )
     fi
@@ -34,8 +37,11 @@ function usage__commands #= [CMD]
 function usage__options #= [CMD]
 {
   local i lines src=()
-
+  local -A checked
+  
   for (( i = ${#BASH_SOURCE[@]} - 1; 0 <= i; --i )); do
+    [ -n "${checked[${BASH_SOURCE[i]}]}" ] && continue
+    : ${checked[${BASH_SOURCE[i]}]:=1}
     if cat "${BASH_SOURCE[i]}" | grep -qE "^function +optparse_${1:-$CMD} *\( *\)"; then
       src+=( "${BASH_SOURCE[i]}" )
     fi
