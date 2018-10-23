@@ -14,7 +14,6 @@ function invoke_command () #= [ARGS ...]
 {
   local ARGS CMD="${CMD:-${SCRIPT_NAME}}" OPTS cmdtype
   local -n has_subcommand="has_subcommand_${CMD//-/_}"
-  unset BASECMD
   
   [ "$(type -t init)" = "function" ] && init
   [ "$(type -t "init_${CMD//-/_}")" = "function" ] && "init_${CMD//-/_}"
