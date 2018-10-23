@@ -1,24 +1,23 @@
 [ -n "${HHS_USAGE_BASH}" ] && return
 :     ${HHS_USAGE_BASH:=1}
 
+hhsinc utils
+hhsinc function
+
+
+
 function usage__commands #= [CMD]
 {
-  local i lines src=()
-  local -A checked
+  local PAT_FUNC_CMD_SUB="function +${1:-$CMD}_([^ ]+) *\( *\)"
+  local lines src srcs
   
-  for (( i = ${#BASH_SOURCE[@]} - 1; 0 <= i; --i )); do
-    [ -n "${checked[${BASH_SOURCE[i]}]}" ] && continue
-    : ${checked[${BASH_SOURCE[i]}]:=1}
-    if cat "${BASH_SOURCE[i]}" | grep -qE "^function +${1:-$CMD}_([^ ]+) *\( *\)"; then
-      src+=( "${BASH_SOURCE[i]}" )
-    fi
-  done
+  readarray -t srcs < <(grep -lE "$PAT_FUNC_CMD_SUB" "${BASH_SOURCE[@]}" | tac | uniqex)
   
-  for i in "${src[@]}"; do
-    cat "$i" \
-    | grep -A1 -nE "^function +${1:-$CMD}_([^ ]+) *\( *\)" \
+  for src in "${srcs[@]}"; do
+    cat "$src" \
+    | grep -A1 -nE "^$PAT_FUNC_CMD_SUB" \
     | awk '
-      match($0, /^[0-9]+:function +'${1:-$CMD}'_([^ ]+) *\( *\) *(# (.*))?/, m) {
+      match($0, /^[0-9]+:'"$PAT_FUNC_CMD_SUB"' *(# (.*))?/, m) {
         s=s sprintf("  %s %s\n", gensub(/_/, "-", "g", m[1]), m[3]);
       }
       match($0, /^[0-9]+-(# (.*))/, m) {
@@ -36,26 +35,15 @@ function usage__commands #= [CMD]
 
 function usage__options #= [CMD]
 {
-  local i lines src=()
-  local -A checked
+  local PAT_FUNC_OPTPARSE_CMD="function +${1:-$CMD} *\( *\)"
+  local lines src srcs
   
-  for (( i = ${#BASH_SOURCE[@]} - 1; 0 <= i; --i )); do
-    [ -n "${checked[${BASH_SOURCE[i]}]}" ] && continue
-    : ${checked[${BASH_SOURCE[i]}]:=1}
-    if cat "${BASH_SOURCE[i]}" | grep -qE "^function +optparse_${1:-$CMD} *\( *\)"; then
-      src+=( "${BASH_SOURCE[i]}" )
-    fi
-  done
+  readarray -t srcs < <(grep -lE "$PAT_FUNC_OPTPARSE_CMD" "${BASH_SOURCE[@]}" | tac | uniqex)
   
-  for i in "${src[@]}"; do
-    readarray -t lines < <(
-      cat "$i" \
-      | grep -nE "^function +optparse_${1:-$CMD} *\( *\)|^{|^}" \
-      | grep -A2 -E "^[0-9]+:function +optparse_${1:-$CMD} +\( *\)" \
-      | sed -r -e 's/^([0-9]+).*/\1/g')
-    cat "$i" \
-    | head -n+$(( lines[2] - 1 )) \
-    | tail -n+$(( lines[1] + 1 )) \
+  for src in "${srcs[@]}"; do
+    readarray -t lines < <(function_get_lines "$PAT_FUNC_OPTPARSE_CMD" "$src")
+    cat "$src" \
+    | headtail $(( lines[1] + 1 )) $(( lines[2] - 1 )) \
     | awk '
       opt == 1 && match($0, /^ *(# (.*))/, m) {
         s=s sprintf("      %s\n", m[2]);
@@ -80,25 +68,16 @@ function usage_default () #= [CMD]
 # Args:
 #   CMD : Whole name of subcommand 
 {
-  local i lines src
+  local PAT_FUNC_CMD="function +${1:-$CMD} *\( *\)"
+  local lines src srcs
   
-  for (( i = ${#BASH_SOURCE[@]} - 1; 0 <= i; --i )); do
-    if cat "${BASH_SOURCE[i]}" | grep -qE "^function +${1:-$CMD} *\( *\)"; then
-      src="${BASH_SOURCE[i]}"
-      break
-    fi
-  done
-  
-  [ -z "$src" ] && { error "function ${1:-$CMD} is not founded."; exit 1; }
-  
-  readarray -t lines < <(
-    cat "$src" \
-    | grep -nE "^function +${1:-$CMD} *\( *\)|^{" \
-    | grep -A1 -E "^[0-9]+:function +${1:-$CMD} *\( *\)" \
-    | sed -r -e 's/^([0-9]+).*/\1/g')
+  readarray -t srcs < <(grep -lE "$PAT_FUNC_CMD" "${BASH_SOURCE[@]}" | tac | uniqex)
+  [ -z "$srcs" ] && { error "function ${1:-$CMD} is not founded."; exit 1; }
+
+  src="$srcs"
+  readarray -t lines < <(function_get_lines "$PAT_FUNC_OPTPARSE_CMD" "$src")
   cat "$src" \
-  | head -n+$(( lines[1] - 1 )) \
-  | tail -n+$(( lines[0] )) \
+  | headtail $(( lines[0] )) $(( lines[1] - 1 )) \
   | sed -r -e 's/^function +([^ ]+)[^#]*(#=? *(.*))?/Usage: \1 \3/g' \
            -e 's/^#\?? (.*)/\1/g'
   
