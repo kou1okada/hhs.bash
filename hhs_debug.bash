@@ -3,11 +3,11 @@
 
 
 
-FATAL=0
-ERROR=1
-WARNING=3
-INFO=4
-DEBUG=4
+THRESHOLD_OF_FATAL=0
+THRESHOLD_OF_ERROR=1
+THRESHOLD_OF_WARNING=3
+THRESHOLD_OF_INFO=4
+THRESHOLD_OF_DEBUG=4
 
 function abort () #= [EXITCODE=1 [CALLSTACKSKIP=0]]
 {
@@ -31,40 +31,40 @@ function dump_callstack () #= [N=1]
 function source_at () #= [N=1]
 {
   local i=${1:-1}
-  echo -e "${DEBUG_COLOR}at :${SGR_reset} ${BASH_SOURCE[0]}: ${FUNCNAME[i]}: ${BASH_LINENO[i-1]}"
+  echo -e "${DEBUG_COLOR}at :${SGR_reset} ${BASH_SOURCE[i-1]}: ${FUNCNAME[i]}: ${BASH_LINENO[i-1]}"
 }
 
 function fatal () #= [MESSAGES ...]
 {
-  (( FATAL <= ${VERBOSE:-0} )) || return 1
+  (( THRESHOLD_OF_FATAL <= ${VERBOSE:-0} )) || return 1
   echo -e "${FATAL_COLOR}Fatal:${SGR_reset} $@"
-  (( FATAL <= SOURCE_AT )) && source_at 2
+  (( THRESHOLD_OF_FATAL <= SOURCE_AT )) && source_at 2
 } >&2 #/fatal
 
 function error () #= [MESSAGES ...]
 {
-  (( ERROR <= ${VERBOSE:-0} )) || return 1
+  (( THRESHOLD_OF_ERROR <= ${VERBOSE:-0} )) || return 1
   echo -e "${ERROR_COLOR}Error:${SGR_reset} $@"
-  (( ERROR <= SOURCE_AT )) && source_at 2
+  (( THRESHOLD_OF_ERROR <= SOURCE_AT )) && source_at 2
 } >&2 #/error
 
 function warning () #= [MESSAGES ...]
 {
-  (( WARNING <= ${VERBOSE:-0} )) || return 1
+  (( THRESHOLD_OF_WARNING <= ${VERBOSE:-0} )) || return 1
   echo -e "${WARNING_COLOR}Warning:${SGR_reset} $@"
-  (( WARNIGN <= SOURCE_AT )) && source_at 2
+  (( THRESHOLD_OF_WARNIGN <= SOURCE_AT )) && source_at 2
 } >&2 #/warning
 
 function info () #= [MESSAGES ...]
 {
-  (( INFO <= ${VERBOSE:-0} )) || return 1
+  (( THRESHOLD_OF_INFO <= ${VERBOSE:-0} )) || return 1
   echo -e "${INFO_COLOR}Info:${SGR_reset} $@"
-  (( INFO <= SOURCE_AT )) && source_at 2
+  (( THRESHOLD_OF_INFO <= SOURCE_AT )) && source_at 2
 } >&2 #/info
 
 function debug () #= [MESSAGES ...]
 {
-  (( DEBUG <= ${VERBOSE:0} )) || return 1
+  (( THRESHOLD_OF_DEBUG <= ${VERBOSE:-0} )) || return 1
   echo -e "${DEBUG_COLOR}Debug:${SGR_reset} $@"
-  (( DEBUG <= SOURCE_AT )) && source_at 2
+  (( THRESHOLD_OF_DEBUG <= SOURCE_AT )) && source_at 2
 } >&2 #/debug
