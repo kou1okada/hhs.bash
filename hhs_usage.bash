@@ -75,7 +75,7 @@ function usage_default () #= [CMD]
   [ -z "$srcs" ] && { error "function ${1:-$CMD} is not founded."; exit 1; }
 
   src="$srcs"
-  readarray -t lines < <(function_get_lines "$PAT_FUNC_OPTPARSE_CMD" "$src")
+  readarray -t lines < <(function_get_lines "$PAT_FUNC_CMD" "$src")
   cat "$src" \
   | headtail $(( lines[0] )) $(( lines[1] - 1 )) \
   | sed -r -e 's/^function +([^ ]+)[^#]*(#=? *(.*))?/Usage: \1 \3/g' \
