@@ -35,7 +35,7 @@ function usage__commands #= [CMD]
 
 function usage__options #= [CMD]
 {
-  local PAT_FUNC_OPTPARSE_CMD="function +${1:-$CMD} *\( *\)"
+  local PAT_FUNC_OPTPARSE_CMD="function +optparse_${1:-$CMD} *\( *\)"
   local lines src srcs
   
   readarray -t srcs < <(grep -lE "$PAT_FUNC_OPTPARSE_CMD" "${BASH_SOURCE[@]}" | tac | uniqex)
