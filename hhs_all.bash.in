@@ -9,7 +9,7 @@ hhsinc usage
 hhsinc command
 hhsinc version
 
-: ${VERBOSE:=1}
-: ${SOURCE_AT:=1}
+: ${VERBOSE:=$THRESHOLD_OF_WARNING}
+: ${SOURCE_AT:=$THRESHOLD_OF_WARNING}
 : ${COLORIZE:=1}
 init_SGR
