@@ -5,7 +5,10 @@
 # This script is destributed under the MIT license.
 #
 
-(( 5 <= DEBUG )) && set -x
+(( 5 <= DEBUG )) && {
+  PS4='+ \e[1;35m\t\e[0m \e[1;4m${BASH_SOURCE}\e[0m: ${LINENO}: ${FUNCNAME:+[${#FUNCNAME[@]}] \e[1;4m$FUNCNAME\e[0m (): }\n'
+  set -x
+}
 
 HHS_VERSION=0.2.0
 HHS_VERSION_COMPATIBILITY=0.1.0
