@@ -45,10 +45,13 @@ function usage__options #= [CMD]
     cat "$src" \
     | headtail $(( lines[1] + 1 )) $(( lines[2] - 1 )) \
     | awk '
-      opt == 1 && match($0, /^ *(# (.*))/, m) {
-        s=s sprintf("      %s\n", m[2]);
+      opt == 1 {
+        if (match($0, /^ *(# (.*))/, m)) {
+          s=s sprintf("      %s\n", m[2]);
+        } else {
+          opt = 0;
+        }
       }
-      {opt = 0;}
       match($0, /^ *(-[^)]*)\) *(# ((\[)?(.*)))?/, m) {
         s=s sprintf("  %s%s%s\n", gensub(/\|/, ", ", "g", m[1]), m[3] == "" ? "" : length(m[1]) == 2 ? m[4] == "[" ? m[4] : " " : m[4] "=", m[5]);
         opt = 1;
