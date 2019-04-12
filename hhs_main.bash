@@ -6,7 +6,7 @@
 function is_same_entity () #= FILE1 FILE2
 {
   local files
-  readarray -t files < <(readlink -f -- "$[@:0:2]")
+  readarray -t files < <(readlink -f -- "${@:1:2}")
   [ "${files[0]}" = "${files[1]}" -a -n "$files" ]
 }
 
