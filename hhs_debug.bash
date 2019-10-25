@@ -52,7 +52,7 @@ function warning () #= [MESSAGES ...]
 {
   (( THRESHOLD_OF_WARNING <= ${VERBOSE:-0} )) || return 1
   echo -e "${WARNING_COLOR}Warning:${SGR_reset} $@"
-  (( THRESHOLD_OF_WARNIGN <= SOURCE_AT )) && source_at 2
+  (( THRESHOLD_OF_WARNING <= SOURCE_AT )) && source_at 2
 } >&2 #/warning
 
 function info () #= [MESSAGES ...]
