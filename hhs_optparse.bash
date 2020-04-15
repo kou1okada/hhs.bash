@@ -160,7 +160,7 @@ function optparse__common ()
 {
   case "$1" in
     --)
-      ARGS=( "$@" )
+      ARGS=( "${@:2}" )
       NO_MORE_OPTS=1
       _SHIFT=$#
       ;;
