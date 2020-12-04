@@ -18,8 +18,6 @@ function optcommit () #= [ARGS ...]
   _ARGS=( "$@" )
 }
 
-shopt_push -s extglob
-
 function optprepare ()
 {
   _PARAM=0
@@ -27,24 +25,17 @@ function optprepare ()
   _SHORT=
   _SHIFT=
   _OPTIONAL=
-  shopt_push -s extglob
-  case "$1" in
-    --+(!(=))=*)
+  if   [[ "$1" =~ ^--.*=.*$ ]]; then
       _PARAM=1
       _LONG=1
       set -- "${1%%=*}" "${1#*=}" "${@:2}"
-      ;;
-    -[^-]?*)
+  elif [[ "$1" =~ ^-[^-].+$ ]]; then
       _PARAM=1
       _SHORT=1
       set -- "${1::2}" "${1:2}" "${@:2}"
-      ;;
-  esac
-  shopt_pop
+  fi
   _ARGS=( "$@" )
 }
-
-shopt_pop
 
 function nparams () #= [N=0 [OPTIONAL]]
 #   Set number of parameters.
