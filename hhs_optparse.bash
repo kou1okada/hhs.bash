@@ -117,7 +117,7 @@ function init_optperser ()
     _PARSER+=( "$parser" )
     parser="${parser%_*}"
   done
-  set_optparser "${_PARSER[@]}" optparse__default optparse__common
+  set_optparser "${HHS_OPTPARSE_BASH_CUSTOM_PARSER_1[@]}" "${_PARSER[@]}" "${HHS_OPTPARSE_BASH_CUSTOM_PARSER_2[@]}" optparse__default optparse__common
 }
 
 function optparse ()

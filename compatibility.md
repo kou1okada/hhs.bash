@@ -1,3 +1,14 @@
+# Current developping features.
+
+## Support custom parsers for `hhs_optparse.bash`.
+
+In `hhs_optparse.bash`, custom parsers can insert by array of
+`HHS_OPTPARSE_BASH_CUSTOM_PARSER_1` and `HHS_OPTPARSE_BASH_CUSTOM_PARSER_2`.
+
+`HHS_OPTPARSE_BASH_CUSTOM_PARSER_1` has top priority.
+`HHS_OPTPARSE_BASH_CUSTOM_PARSER_2` will be invoked
+after `optparse_<cmd>` before `optparse__default`.
+
 # 0.2.0
 
 ## Version of hhs.bash became to be able to set staticaly.
