@@ -9,6 +9,10 @@ In `hhs_optparse.bash`, custom parsers can insert by array of
 `HHS_OPTPARSE_BASH_CUSTOM_PARSER_2` will be invoked
 after `optparse_<cmd>` before `optparse__default`.
 
+## Function override.
+
+Support function override by `function_evacuate` and `call_overridden`.
+
 # 0.2.0
 
 ## Version of hhs.bash became to be able to set staticaly.
